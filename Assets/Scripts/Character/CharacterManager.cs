@@ -20,22 +20,26 @@ namespace Character
             Airborne,
             Sprint,
             Aim,
+            Action,
         }
 
         [Header("Player State")]
         [ReadOnly] public PlayerState currentState;
         
+        [Space]
         [SerializeField] private PlayerAttributes playerData;
         
         [Header("Player Movement")]
         [SerializeField] private MovementController movement;
         [SerializeField] private float gravityPower;
+        [SerializeField] private float moveSmoothDamp;
 
         [Header("Animation")] 
         [SerializeField] private Animator animator;
         [SerializeField] private NetworkAnimator networkAnimator;
 
-        [Header("Camera")] [SerializeField] private CinemachineVirtualCamera virtualCamera;
+        [Header("Action")] [SerializeField] private GameObject bulletPrefab;
+        [Header("Camera")] [SerializeField] private CinemachineFreeLook virtualCamera;
         
         // Public Events
         
@@ -49,22 +53,31 @@ namespace Character
             base.OnStartAuthority();
             currentState = PlayerState.Idle;
             _isSprinting = false;
-            
-            movement.baseMoveSpeed = playerData.baseMoveSpeed;
-            movement.walkSpeedMultiplier = playerData.walkSpeedMultiplier;
-            movement.sprintSpeedMultiplier = playerData.sprintSpeedMultiplier;
-            movement.jumpPower = playerData.jumpPower;
-            movement.gravity = gravityPower;
+
+            InitMovement();
 
             _hp = playerData.baseHp;
             
             InitCamera();
         }
 
+        private void InitMovement()
+        {
+            movement.baseMoveSpeed = playerData.baseMoveSpeed;
+            movement.walkSpeedMultiplier = playerData.walkSpeedMultiplier;
+            movement.sprintSpeedMultiplier = playerData.sprintSpeedMultiplier;
+            movement.jumpPower = playerData.jumpPower;
+            movement.gravity = gravityPower;
+            if (Camera.main is not null) movement.cam = Camera.main.transform;
+            movement.turnSmoothTime = moveSmoothDamp;
+        }
+
         private void InitCamera()
         {
-            virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-            virtualCamera.Follow = transform;
+            virtualCamera = FindObjectOfType<CinemachineFreeLook>();
+            var playerTransform = transform;
+            virtualCamera.Follow = playerTransform;
+            virtualCamera.LookAt = playerTransform;
         }
 
         private void Update()
@@ -109,6 +122,14 @@ namespace Character
         public void OnJump(InputAction.CallbackContext context)
         {
             
+        }
+        
+        [Command(requiresAuthority = false)]
+        public void OnAction(InputAction.CallbackContext context)
+        {
+            ChangeState(PlayerState.Action);
+            GameObject item = Instantiate(bulletPrefab);
+            NetworkServer.Spawn(item);
         }
 
         private void ChangeState(PlayerState state)
@@ -162,6 +183,8 @@ namespace Character
                     break;
                 case PlayerState.Aim:
                     break;
+                case PlayerState.Action:
+                    break;
             }
         }
         
@@ -178,6 +201,8 @@ namespace Character
                 case PlayerState.Jump:
                     break;
                 case PlayerState.Aim:
+                    break;
+                case PlayerState.Action:
                     break;
             }
         }

@@ -2678,10 +2678,9 @@ GameObject:
   - component: {fileID: 2416982046919747095}
   - component: {fileID: 7050371461342619496}
   - component: {fileID: 2368776828388825771}
-  - component: {fileID: 2798717471383947198}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2815,8 +2814,11 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: b98f5bff8ea0e8448a1a2a642c17174f, type: 2}
   movement: {fileID: 7050371461342619496}
   gravityPower: -2
+  moveSmoothDamp: 0.1
   animator: {fileID: 6657689530514488394}
   networkAnimator: {fileID: 296782948704291904}
+  bulletPrefab: {fileID: 576610664208189474, guid: 6ce4047493d00cb4c8ed157150b850d0,
+    type: 3}
   virtualCamera: {fileID: 0}
 --- !u!114 &7050371461342619496
 MonoBehaviour:
@@ -2839,6 +2841,8 @@ MonoBehaviour:
   sprintSpeedMultiplier: 0
   jumpPower: 0
   gravity: 0
+  turnSmoothTime: 0
+  cam: {fileID: 0}
 --- !u!114 &2368776828388825771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2953,34 +2957,27 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: a2a0e184-1cfc-40ee-97e1-7c2b24e8a524
     m_ActionName: Gameplay/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2416982046919747095}
+        m_TargetAssemblyTypeName: Character.CharacterManager, Assembly-CSharp
+        m_MethodName: OnAction
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: df738de2-320c-47d0-97fd-9152175e5ebb
+    m_ActionName: Gameplay/Action[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!136 &2798717471383947198
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4335904653729676427}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.21733695
-  m_Height: 1.1351042
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.5505433, z: 0}
 --- !u!1 &4433047126761925933
 GameObject:
   m_ObjectHideFlags: 0
