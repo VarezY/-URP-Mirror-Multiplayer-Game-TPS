@@ -25,15 +25,15 @@ namespace Character
         [Header("Player State")]
         [ReadOnly] public PlayerState currentState;
         
-        [SerializeField]
-        private PlayerAttributes playerData;
+        [SerializeField] private PlayerAttributes playerData;
         
         [Header("Player Movement")]
         [SerializeField] private MovementController movement;
         [SerializeField] private float gravityPower;
 
-        [Header("Animation")] [SerializeField] 
-        private Animator animator;
+        [Header("Animation")] 
+        [SerializeField] private Animator animator;
+        [SerializeField] private NetworkAnimator networkAnimator;
 
         [Header("Camera")] [SerializeField] private CinemachineVirtualCamera virtualCamera;
         
@@ -77,7 +77,7 @@ namespace Character
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            ChangeState(PlayerState.Move);
+            ChangeState(_isSprinting ? PlayerState.Sprint : PlayerState.Move);
 
             if (context.canceled)
             {
@@ -125,10 +125,13 @@ namespace Character
             switch (currentState)
             {
                 case PlayerState.Idle:
+                    TriggerAnimation("Idle");
                     break;
                 case PlayerState.Move:
+                    TriggerAnimation("Walk");
                     break;
                 case PlayerState.Sprint:
+                    TriggerAnimation("Run");
                     break;
                 case PlayerState.Jump:
                     break;
@@ -177,6 +180,12 @@ namespace Character
                 case PlayerState.Aim:
                     break;
             }
+        }
+
+        private void TriggerAnimation(string triggerName)
+        {
+            animator.SetTrigger(triggerName);
+            networkAnimator.SetTrigger(triggerName);
         }
     }
 }

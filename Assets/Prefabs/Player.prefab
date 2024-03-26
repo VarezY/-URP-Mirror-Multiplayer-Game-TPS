@@ -2673,6 +2673,7 @@ GameObject:
   - component: {fileID: 3364056900239498080}
   - component: {fileID: 9140224511618312912}
   - component: {fileID: 8286555960761565640}
+  - component: {fileID: 296782948704291904}
   - component: {fileID: 241413937479330102}
   - component: {fileID: 2416982046919747095}
   - component: {fileID: 7050371461342619496}
@@ -2752,6 +2753,23 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &296782948704291904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4335904653729676427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 1
+  animator: {fileID: 6657689530514488394}
 --- !u!143 &241413937479330102
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2798,6 +2816,7 @@ MonoBehaviour:
   movement: {fileID: 7050371461342619496}
   gravityPower: -2
   animator: {fileID: 6657689530514488394}
+  networkAnimator: {fileID: 296782948704291904}
   virtualCamera: {fileID: 0}
 --- !u!114 &7050371461342619496
 MonoBehaviour:
@@ -3043,7 +3062,7 @@ Animator:
   m_GameObject: {fileID: 4484017493044500058}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 7d482c82ffb74a7fbfc5c7b288095351, type: 3}
-  m_Controller: {fileID: 9100000, guid: b1956214b7a44fc9bec22567af111a35, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8948c7cd0858d7b44b1dd3d08e272371, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
